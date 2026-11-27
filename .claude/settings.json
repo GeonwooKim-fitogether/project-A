@@ -1,0 +1,191 @@
+{
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": [
+      "mcp__Supabase__execute_sql",
+      "mcp__github",
+      "mcp__supabase-readonly",
+      "Bash(git add *)",
+      "PowerShell(git add *)",
+      "Bash(git commit *)",
+      "PowerShell(git commit *)",
+      "Bash(git checkout *)",
+      "PowerShell(git checkout *)",
+      "Bash(git switch *)",
+      "PowerShell(git switch *)",
+      "Bash(git branch *)",
+      "PowerShell(git branch *)",
+      "Bash(git branch)",
+      "PowerShell(git branch)",
+      "Bash(git pull *)",
+      "PowerShell(git pull *)",
+      "Bash(git pull)",
+      "PowerShell(git pull)",
+      "Bash(git fetch *)",
+      "PowerShell(git fetch *)",
+      "Bash(git fetch)",
+      "PowerShell(git fetch)",
+      "Bash(git status *)",
+      "PowerShell(git status *)",
+      "Bash(git status)",
+      "PowerShell(git status)",
+      "Bash(git diff *)",
+      "PowerShell(git diff *)",
+      "Bash(git diff)",
+      "PowerShell(git diff)",
+      "Bash(git log *)",
+      "PowerShell(git log *)",
+      "Bash(git revert *)",
+      "PowerShell(git revert *)",
+      "Bash(git push *)",
+      "PowerShell(git push *)",
+      "Bash(gh issue *)",
+      "PowerShell(gh issue *)",
+      "Bash(gh pr create *)",
+      "PowerShell(gh pr create *)",
+      "Bash(gh pr view *)",
+      "PowerShell(gh pr view *)",
+      "Bash(gh pr list *)",
+      "PowerShell(gh pr list *)",
+      "Bash(gh pr merge *)",
+      "PowerShell(gh pr merge *)",
+      "Bash(gh pr checks *)",
+      "PowerShell(gh pr checks *)",
+      "Bash(gh pr ready *)",
+      "PowerShell(gh pr ready *)",
+      "Bash(gh pr edit *)",
+      "PowerShell(gh pr edit *)",
+      "Bash(gh pr diff *)",
+      "PowerShell(gh pr diff *)",
+      "Bash(gh run *)",
+      "PowerShell(gh run *)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Start-Sleep *)",
+      "Edit(./**)"
+    ],
+    "ask": [
+      "mcp__github__create_or_update_file",
+      "mcp__github__delete_file",
+      "mcp__github__enable_pr_auto_merge",
+      "mcp__github__merge_pull_request",
+      "mcp__github__push_files",
+      "Bash(git push * main)",
+      "PowerShell(git push * main)",
+      "Bash(git push * main *)",
+      "PowerShell(git push * main *)",
+      "Bash(git push * *:main)",
+      "PowerShell(git push * *:main)",
+      "Bash(git push * refs/heads/main*)",
+      "PowerShell(git push * refs/heads/main*)",
+      "Bash(git push --force*)",
+      "PowerShell(git push --force*)",
+      "Bash(git push -f*)",
+      "PowerShell(git push -f*)",
+      "Bash(git push * --force*)",
+      "PowerShell(git push * --force*)",
+      "Bash(git push * -f)",
+      "PowerShell(git push * -f)",
+      "Bash(git push * -f *)",
+      "PowerShell(git push * -f *)",
+      "Bash(git push * +*)",
+      "PowerShell(git push * +*)",
+      "Bash(git push * --delete*)",
+      "PowerShell(git push * --delete*)",
+      "Bash(git push origin :*)",
+      "PowerShell(git push origin :*)",
+      "Bash(git branch -D *)",
+      "PowerShell(git branch -D *)",
+      "Bash(git branch -d *)",
+      "PowerShell(git branch -d *)",
+      "Bash(git branch --delete*)",
+      "PowerShell(git branch --delete*)",
+      "Bash(gh pr merge * --admin*)",
+      "PowerShell(gh pr merge * --admin*)",
+      "Bash(gh issue delete*)",
+      "PowerShell(gh issue delete*)",
+      "Bash(gh run delete*)",
+      "PowerShell(gh run delete*)",
+      "Bash(gh repo *)",
+      "PowerShell(gh repo *)",
+      "Bash(gh api *)",
+      "PowerShell(gh api *)",
+      "Bash(gh secret *)",
+      "PowerShell(gh secret *)",
+      "Edit(/.claude/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Skill|Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/retired-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|NotebookEdit|Artifact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/terms-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Artifact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/report-format-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/sql-write-guard.py"
+          },
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/branch-guard.py"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.+__(execute_sql|apply_migration)|mcp__github__actions_run_trigger",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/sql-write-guard.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__.+__apply_migration",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/dev-verify-reminder.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
