@@ -1,5 +1,7 @@
 # 사내 Claude Tools 🛠️
 
+> 통합 현황판: 이 저장소의 GitHub Pages 주소(Settings ▸ Pages)에서 봄. 이 저장소의 PR 흐름만 보여 줌
+
 > **작업 등급** — PR 을 하·중·상 중 어느 등급으로 보고 누가 병합하는지는 [자율 병합 등급 규칙](.claude/rules/autonomy-tiers.md)에 있습니다.
 
 사내 팀의 **Claude Code 공용 자산 창고 + 새 프로젝트 템플릿**입니다.
